@@ -29,3 +29,5 @@ import { of, map, Observable, from } from 'rxjs';
 //   error: (err) => console.log('Error: ', err),
 //   complete: () => console.log('Completed'),
 // });
+
+// ------- fromEvent operator ---------
