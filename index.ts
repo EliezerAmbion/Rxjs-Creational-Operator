@@ -1,6 +1,6 @@
 import './style.css';
 
-import { of, map, Observable, from, fromEvent } from 'rxjs';
+import { of, map, Observable, from, fromEvent, timer } from 'rxjs';
 
 // ------- of operator ---------
 // of(1, 2, 3).subscribe({
@@ -31,7 +31,7 @@ import { of, map, Observable, from, fromEvent } from 'rxjs';
 // });
 
 // ------- fromEvent operator ---------
-const fromEventBtn = document.querySelector('.fromEventBtn');
+// const fromEventBtn = document.querySelector('.fromEventBtn');
 
 // as the first parameter, you provide the event target which in this case is the fromEventBtn
 // as the seconde parameter, you provide the event type which in this case is the click event
@@ -42,25 +42,52 @@ const fromEventBtn = document.querySelector('.fromEventBtn');
 // );
 
 // setTimeout(() => {
-//   console.log('Unscubscribe');
+//   console.log('Unsubscribe');
 //   fromEventBtn$.unsubscribe();
 // }, 5000);
 
-const btn$ = new Observable<MouseEvent>((subscriber) => {
-  const clickHandlerFn = (event) => {
-    console.log('Event callback leaked?');
-    subscriber.next(event);
-  };
+// manual creation
+// const fromEventBtn$ = new Observable<MouseEvent>((subscriber) => {
+//   const clickHandlerFn = (event) => {
+//     console.log('Event callback leaked?');
+//     subscriber.next(event);
+//   };
 
-  fromEventBtn.addEventListener('click', clickHandlerFn);
+//   fromEventBtn.addEventListener('click', clickHandlerFn);
 
-  // teardown logic
-  return () => {
-    fromEventBtn.removeEventListener('click', clickHandlerFn);
-  };
-}).subscribe((event) => console.log(event.type, event.x, event.y));
+//   // teardown logic
+//   return () => {
+//     fromEventBtn.removeEventListener('click', clickHandlerFn);
+//   };
+// }).subscribe((event) => console.log(event.type, event.x, event.y));
 
-setTimeout(() => {
-  console.log('Unsubscribe');
-  btn$.unsubscribe();
-}, 5000);
+// setTimeout(() => {
+//   console.log('Unsubscribe');
+//   fromEventBtn$.unsubscribe();
+// }, 5000);
+
+// ------- timer operator ---------
+// console.log('App started')
+
+// timer(2000).subscribe({
+//   next: (val) => console.log(val),
+//   complete: () => console.log('Completed'),
+// });
+
+// manual creation
+// console.log('App started');
+
+// const timer$ = new Observable<number>((subscriber) => {
+//   const timeoutId = setTimeout(() => {
+//     subscriber.next(0), subscriber.complete();
+//   }, 2000);
+
+//   return () => clearTimeout(timeoutId);
+// }).subscribe({
+//   next: (val) => console.log(val),
+//   complete: () => console.log('Completed'),
+// });
+
+// setTimeout(() => {
+//   timer$.unsubscribe();
+// }, 1000);
