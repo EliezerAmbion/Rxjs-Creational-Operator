@@ -113,23 +113,21 @@ import { of, map, Observable, from, fromEvent, timer, interval } from 'rxjs';
 // }, 5000);
 
 // // manual creation
-console.log('App started');
+// console.log('App started');
 
-const interval$ = new Observable<number>((subscriber) => {
-  let counter = 0;
+// const interval$ = new Observable<number>((subscriber) => {
+//   let counter = 0;
 
-  const intervalId = setInterval(() => {
-    console.log('Leaked?');
-    subscriber.next(counter++);
-  }, 1000);
+//   const intervalId = setInterval(() => {
+//     console.log('Leaked?');
+//     subscriber.next(counter++);
+//   }, 1000);
 
-  // w/o the teardown logic, the console.log('Leaked?') will run, thus you have a memory leak
-  return () => clearInterval(intervalId);
-}).subscribe({
-  next: (val) => console.log(val),
-});
+//   // w/o the teardown logic, the console.log('Leaked?') will run, thus you have a memory leak
+//   return () => clearInterval(intervalId);
+// }).subscribe((val) => console.log(val));
 
-setTimeout(() => {
-  console.log('unsubscribe');
-  interval$.unsubscribe();
-}, 5000);
+// setTimeout(() => {
+//   console.log('unsubscribe');
+//   interval$.unsubscribe();
+// }, 5000);
