@@ -1,6 +1,6 @@
 import './style.css';
 
-import { of, map, Observable, from, fromEvent, timer } from 'rxjs';
+import { of, map, Observable, from, fromEvent, timer, interval } from 'rxjs';
 
 // ------- of operator ---------
 // of(1, 2, 3).subscribe({
@@ -100,3 +100,37 @@ import { of, map, Observable, from, fromEvent, timer } from 'rxjs';
 //   console.log('unsubscribe');
 //   timer$.unsubscribe();
 // }, 1000);
+
+// ------- interval operator ---------
+// console.log('App started');
+
+// const interval$ = interval(1000).subscribe({
+//   next: (val) => console.log(val),
+// });
+
+// setTimeout(() => {
+//   console.log('unsubscribe');
+//   interval$.unsubscribe();
+// }, 5000);
+
+// // manual creation
+// console.log('App started');
+
+// const interval$ = new Observable<number>((subscriber) => {
+//   let counter = 0;
+
+//   const intervalId = setInterval(() => {
+//     console.log('Leaked?');
+//     subscriber.next(counter++);
+//   }, 1000);
+
+//   // w/o the teardown logic, the console.log('Leaked?') will run, thus you have a memory leak
+//   return () => clearInterval(intervalId);
+// }).subscribe({
+//   next: (val) => console.log(val),
+// });
+
+// setTimeout(() => {
+//   console.log('unsubscribe');
+//   interval$.unsubscribe();
+// }, 5000);
