@@ -74,6 +74,7 @@ import { of, map, Observable, from, fromEvent, timer, interval } from 'rxjs';
 //   complete: () => console.log('Completed'),
 // });
 
+// // if you want the timer to finsih early, you can unsubscribe, else you can omit this
 // setTimeout(() => {
 //   console.log('unsubscribe');
 //   timer$.unsubscribe();
@@ -104,9 +105,7 @@ import { of, map, Observable, from, fromEvent, timer, interval } from 'rxjs';
 // ------- interval operator ---------
 // console.log('App started');
 
-// const interval$ = interval(1000).subscribe({
-//   next: (val) => console.log(val),
-// });
+// const interval$ = interval(1000).subscribe((val) => console.log(val));
 
 // setTimeout(() => {
 //   console.log('unsubscribe');
@@ -114,23 +113,23 @@ import { of, map, Observable, from, fromEvent, timer, interval } from 'rxjs';
 // }, 5000);
 
 // // manual creation
-// console.log('App started');
+console.log('App started');
 
-// const interval$ = new Observable<number>((subscriber) => {
-//   let counter = 0;
+const interval$ = new Observable<number>((subscriber) => {
+  let counter = 0;
 
-//   const intervalId = setInterval(() => {
-//     console.log('Leaked?');
-//     subscriber.next(counter++);
-//   }, 1000);
+  const intervalId = setInterval(() => {
+    console.log('Leaked?');
+    subscriber.next(counter++);
+  }, 1000);
 
-//   // w/o the teardown logic, the console.log('Leaked?') will run, thus you have a memory leak
-//   return () => clearInterval(intervalId);
-// }).subscribe({
-//   next: (val) => console.log(val),
-// });
+  // w/o the teardown logic, the console.log('Leaked?') will run, thus you have a memory leak
+  return () => clearInterval(intervalId);
+}).subscribe({
+  next: (val) => console.log(val),
+});
 
-// setTimeout(() => {
-//   console.log('unsubscribe');
-//   interval$.unsubscribe();
-// }, 5000);
+setTimeout(() => {
+  console.log('unsubscribe');
+  interval$.unsubscribe();
+}, 5000);
