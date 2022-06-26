@@ -55,7 +55,7 @@ import { of, map, Observable, from, fromEvent, timer } from 'rxjs';
 
 //   fromEventBtn.addEventListener('click', clickHandlerFn);
 
-//   // teardown logic
+//   // w/o the teardown logic, the console.log('Event callback leaked?') will run, thus you have a memory leak
 //   return () => {
 //     fromEventBtn.removeEventListener('click', clickHandlerFn);
 //   };
@@ -67,21 +67,29 @@ import { of, map, Observable, from, fromEvent, timer } from 'rxjs';
 // }, 5000);
 
 // ------- timer operator ---------
-// console.log('App started')
+// console.log('App started');
 
-// timer(2000).subscribe({
+// const timer$ = timer(2000).subscribe({
 //   next: (val) => console.log(val),
 //   complete: () => console.log('Completed'),
 // });
+
+// setTimeout(() => {
+//   console.log('unsubscribe');
+//   timer$.unsubscribe();
+// }, 1000);
 
 // manual creation
 // console.log('App started');
 
 // const timer$ = new Observable<number>((subscriber) => {
 //   const timeoutId = setTimeout(() => {
-//     subscriber.next(0), subscriber.complete();
+//     console.log('Timeout');
+//     subscriber.next(0);
+//     subscriber.complete();
 //   }, 2000);
 
+//   // w/o the teardown logic, the console.log('Timeout') will run, thus you have a memory leak
 //   return () => clearTimeout(timeoutId);
 // }).subscribe({
 //   next: (val) => console.log(val),
@@ -89,5 +97,6 @@ import { of, map, Observable, from, fromEvent, timer } from 'rxjs';
 // });
 
 // setTimeout(() => {
+//   console.log('unsubscribe');
 //   timer$.unsubscribe();
 // }, 1000);
