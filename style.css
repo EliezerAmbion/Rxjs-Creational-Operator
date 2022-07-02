@@ -49,3 +49,7 @@ pre {
   padding: 10px;
   color: var(--code-base);
 }
+
+#result-text {
+  color: #15181e;
+}
